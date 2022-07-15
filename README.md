@@ -1,2 +1,2 @@
-# leetcode-solutions
-Solutions to Leetcode problems
+# dsa-solutions
+Solutions to Leetcode and GeeksForGeeks DSA problems
