@@ -4,27 +4,29 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        if head is None or head.next is None or left == right:
-            return head
-        
-        prev, curr = None, head
-        i = 1
+    def countNodes(self, head):
         numNodes = 0
+        curr = head
         
         while curr:
             numNodes += 1
             curr = curr.next
         
-        curr = head
+        return numNodes
+        
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        if head is None or head.next is None or left == right:
+            return head
+        
+        prev, curr, i = None, head, 1
+        numNodes = self.countNodes(head)
         
         while(i != left):
             prev = curr
             curr = curr.next
             i += 1
         
-        startNode = prev
-        endNode = curr
+        startNode, endNode = prev, curr
                 
         while(i <= right):
             nextt = curr.next
