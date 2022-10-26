@@ -1,19 +1,4 @@
 class Solution:
-#     def backtrack(self, index, nums, dp):
-#         if index == 0:
-#             return nums[index]
-#         if index < 0:
-#             return 0
-#         if dp[index] != -1:
-#             return dp[index]
-        
-#         pick = nums[index] + self.backtrack(index - 2, nums, dp)
-#         notPick = self.backtrack(index - 1, nums, dp)
-        
-#         dp[index] = max(pick, notPick)
-        
-#         return max(pick, notPick)
-    
     def rob(self, nums: List[int]) -> int:
         if len(nums) == 1:
             return nums[0]
