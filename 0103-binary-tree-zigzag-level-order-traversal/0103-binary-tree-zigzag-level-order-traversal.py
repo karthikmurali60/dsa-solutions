@@ -9,10 +9,7 @@ class Solution:
         if root is None:
             return root
         
-        queue, result = [], []
-        queue.append(root)
-        level = 0
-        
+        queue, result = [root], []
         reverse = False
         
         while queue:
