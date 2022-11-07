@@ -1,31 +1,33 @@
 class Solution:
-    def convertToAdjList(self, n, edges):
-        adjList = {}
-        
+    def convertEdgesToAdjMatrix(self, edges, n):
+        adjMatrix = {}
+  
         for i in range(n):
-            adjList[i] = []
-        
-        for i, j in edges:
-            adjList[i].append(j)
-            adjList[j].append(i)
+            adjMatrix[i] = []
+
+        for a, b in edges:
+            adjMatrix[a].append(b)
+            adjMatrix[b].append(a)
             
-        return adjList
+        return adjMatrix
+    
+    def dfs(self, index, edges, visited, adjMatrix):
+        visited[index] = 1
         
-    def dfs(self, vis, adjList, src):
-        vis[src] = 1
-        
-        for i in adjList[src]:
-            if not vis[i]:
-                self.dfs(vis, adjList, i)
-        
+        for node in adjMatrix[index]:
+            if not visited[node]:
+                self.dfs(node, edges, visited, adjMatrix)
+    
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        adjList = self.convertToAdjList(n, edges)
-        vis = [0] * n
-        count = 0
+        components = 0
+        
+        adjMatrix = self.convertEdgesToAdjMatrix(edges, n)
+        visited = [0] * n
         
         for i in range(n):
-            if not vis[i]:
-                count += 1
-                self.dfs(vis, adjList, i)
+            if not visited[i]:
+                components += 1
+                self.dfs(i, edges, visited, adjMatrix)
+                
+        return components
         
-        return count
