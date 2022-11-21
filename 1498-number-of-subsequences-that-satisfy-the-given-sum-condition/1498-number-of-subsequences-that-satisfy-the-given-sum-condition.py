@@ -10,6 +10,9 @@ class Solution:
             if nums[i] + nums[j] > target:
                 j -= 1
             else:
+                # since the array is sorted, all the sub-arrays 
+                # in the power set of the subarray from i to j should
+                # satisfy the condition.                
                 result += pow(2, j - i, upper)
                 i += 1
                 
