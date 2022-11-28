@@ -20,16 +20,6 @@ class Solution:
         return min(pick, notPick)
                
     def coinChange(self, coins: List[int], amount: int) -> int:
-        if amount == 0:
-            return 0
-        
-        if len(coins) == 1:
-            if amount % coins[0] == 0:
-                return int(amount / coins[0])
-            else:
-                return -1
-        
-        
         dp = [[-1] * (amount + 1) for i in range(len(coins))]
         
         ans = self.backtrack(len(coins) - 1, coins, amount, dp)
