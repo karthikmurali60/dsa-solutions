@@ -20,11 +20,32 @@ class Solution:
         return pick or notPick
     
     def subsetSumWithTarget(self, nums, target):
-        dp = [[-1] * (target + 1) for _ in range(len(nums) + 1)]
+        dp = [[False] * (target + 1) for _ in range(len(nums))]
         
-        return self.backtrack(len(nums) - 1, nums, target, dp)
+        # return self.backtrack(len(nums) - 1, nums, target, dp)
+        
+        for i in range(len(nums)):
+            dp[i][0] = True
+            
+        if nums[0] <= target:
+            dp[0][nums[0]] = True
+        
+        for index in range(1, len(nums)):
+            for targ in range(1, (target + 1), 1):
+                notPick = dp[index - 1][targ]
+        
+                pick = False
+                if nums[index] <= target:
+                    pick = dp[index - 1][targ - nums[index]]
+
+                dp[index][targ] = pick or notPick
+                                
+        return dp[len(nums) - 1][target]
     
     def canPartition(self, nums: List[int]) -> bool:
+        if len(nums) == 1:
+            return False
+        
         arraySum = sum(nums)
         
         if arraySum % 2 != 0:
