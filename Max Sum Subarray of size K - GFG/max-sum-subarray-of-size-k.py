@@ -6,11 +6,11 @@ class Solution:
         cs, ms = 0, -float('inf')
         
         while j < N:
+            cs += Arr[j]
+
             if j - i + 1 < K:
-                cs += Arr[j]
                 j += 1
             else:
-                cs += Arr[j]
                 ms = max(ms, cs)
                 cs -= Arr[i]
                 i += 1
