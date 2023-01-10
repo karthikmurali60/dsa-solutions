@@ -1,17 +1,18 @@
 class Solution:
-    def climbStairs(self, n: int) -> int:
-        if n == 1:
+    def backtrack(self, index, dp):
+        if index < 0:
+            return 0
+        if index == 0:
             return 1
         
-        prev1, prev2, curr = 1, 1, 0
+        if dp[index] != -1:
+            return dp[index]
         
-        for i in range(2, n + 1):
-            left = prev2
-            right = prev1
-            
-            curr = left + right
-            prev2 = prev1
-            prev1 = curr
+        dp[index] = self.backtrack(index - 2, dp) + self.backtrack(index - 1, dp)
         
-        return curr
-            
+        return dp[index]
+    
+    def climbStairs(self, n: int) -> int:
+        dp = [-1] * (n + 1)
+        
+        return self.backtrack(n, dp)
