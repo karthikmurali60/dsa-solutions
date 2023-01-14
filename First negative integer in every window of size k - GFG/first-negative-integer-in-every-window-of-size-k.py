@@ -2,33 +2,32 @@
 
 def printFirstNegativeInteger( A, N, K):
     # code here
-    calculationsList = []
-    ansList = []
+    
+    result = []
+    negative = []
     
     i, j = 0, 0
     
     while j < N:
-        # Do the calculations
         if A[j] < 0:
-            calculationsList.append(A[j])
+            negative.append(A[j])
             
         if j - i + 1 < K:
             j += 1
         else:
-            # Pick answer from the calculations
-            if len(calculationsList) == 0:
-                ansList.append(0)
+            if len(negative) == 0:
+                result.append(0)
             else:
-                ansList.append(calculationsList[0])
-                
-                # Slide the window
-                if A[i] == calculationsList[0]:
-                    calculationsList.pop(0)
+                result.append(negative[0])
             
-            i += 1
+                if A[i] == negative[0]:
+                    negative.pop(0)
+              
+            i += 1  
             j += 1
-    
-    return ansList
+            
+    return result
+            
 
 
 #{ 
