@@ -1,27 +1,28 @@
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        if k == 1:
-            return nums
+        maxArray, result = [], []
+        i, j, n = 0, 0, len(nums)
         
-        result = []
-        i, j = 0, 0
-        tempList = []
-        
-        while j < len(nums):
-            while len(tempList) > 0 and nums[j] > tempList[-1]:
-                tempList.pop()
-                
-            tempList.append(nums[j])
+        while j < n:
+            if len(maxArray) > 0 and nums[j] > maxArray[-1]:
+                while len(maxArray) > 0 and nums[j] > maxArray[-1]:
+                    maxArray.pop(-1)
+            
+            maxArray.append(nums[j])
                 
             if j - i + 1 < k:
                 j += 1
             else:
-                result.append(tempList[0])
+                result.append(maxArray[0])
                 
-                if tempList[0] == nums[i]:
-                    tempList.pop(0)
+                if nums[i] == maxArray[0]:
+                    maxArray.pop(0)
                     
                 i += 1
                 j += 1
                 
         return result
+        
+        
+        
+        
