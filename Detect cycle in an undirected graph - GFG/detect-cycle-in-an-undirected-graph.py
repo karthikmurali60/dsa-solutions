@@ -1,46 +1,31 @@
-
-
 from typing import List
 class Solution:
     #Function to detect cycle in an undirected graph.
-    def find(self, V, adj, src, visited):
-		visited[src] = 1
-		
-		queue = [[src, -1]]
-		
-		while queue:
-		    ele, parent = queue.pop(0)
-		    
-		    for i in adj[ele]:
-		        if i != parent and visited[i]:
-		            return True
-		            
-		        if i != parent:
-		            queue.append([i, ele])
-                    visited[i] = 1
-		        
-		return False
-    
+    def dfs(self, source, parent, adj, vis):
+        vis[source] = 1
+
+        for node in adj[source]:
+            if vis[node] and node != parent:
+                return True
+            if not vis[node]:
+                if self.dfs(node, source, adj, vis):
+                    return True
+
 	def isCycle(self, V: int, adj: List[List[int]]) -> bool:
 		#Code here
-		visited = [0] * V
+		
+		vis = [0] * (V)
 		
 		for i in range(V):
-		    if self.find(V, adj, i, visited[:]):
-		        return True
-		
+		    if not vis[i]:
+		        if self.dfs(i, -1, adj, vis):
+		            return True
+		   
 		return False
-
-		
-		
-		    
-		
 
 
 #{ 
  # Driver Code Starts
-
-
 if __name__ == '__main__':
 
 	T=int(input())
