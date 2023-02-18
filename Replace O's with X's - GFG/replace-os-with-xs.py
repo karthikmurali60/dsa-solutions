@@ -2,42 +2,40 @@
 
 class Solution:
     def dfs(self, i, j, n, m, mat, vis):
-        # print("--------")
         vis[i][j] = 1
         
-        directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+        mat[i][j] = 'A'
         
-        for dr, dc in directions:
-            nr, nc = dr + i, dc + j
+        directions = [[0, 1], [1, 0], [-1, 0], [0, -1]]
+        
+        for di, dj in directions:
+            ni, nj = i + di, j + dj
             
-            if nr < 0 or nr > n - 1 or nc < 0 or nc > m - 1 or vis[nr][nc] == 1 or mat[nr][nc] == 'X':
+            if ni < 0 or ni >= n or nj < 0 or nj >= m or vis[ni][nj] or mat[ni][nj] == 'X':
                 continue
             
-            # print(nr, nc)
-            self.dfs(nr, nc, n, m, mat, vis)
-            
-        
+            self.dfs(ni, nj, n, m, mat, vis)
         
     def fill(self, n, m, mat):
         # code here
         
-        vis = [[0] * m for i in range(n)]
-        # print(vis)
+        vis = [[0] * m for _ in range(n)]
+
         for i in range(n):
             for j in range(m):
-                if (i == 0 or i == n-1 or j == 0 or j == m-1) and mat[i][j] == 'O':
-                    # print(i, j)
+                if (i == 0 or i == n - 1 or j == 0 or j == m - 1) and mat[i][j] == 'O':
                     self.dfs(i, j, n, m, mat, vis)
                     
-        # print(vis)
         for i in range(n):
             for j in range(m):
-                if mat[i][j] == 'O' and vis[i][j] == 0:
+                if mat[i][j] == 'O':
                     mat[i][j] = 'X'
                     
+                if mat[i][j] == 'A':
+                    mat[i][j] = 'O'
+        
         return mat
-                
-                    
+        
 
 
 #{ 
