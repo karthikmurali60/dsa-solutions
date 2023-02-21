@@ -2,22 +2,22 @@
 
 
 class Solution:
-    def dfs(self, index, adj, vis, pathVis):
-        vis[index] = 1
-        pathVis[index] = 1
+    def dfs(self, index, adj, vis):
+        vis[index] = 2
+        # pathVis[index] = 1
         
         for node in adj[index]:
             # recursively visit all the adj nodes if not visited.
-            if not vis[node]:
-                if self.dfs(node, adj, vis, pathVis):
+            if vis[node] == 0:
+                if self.dfs(node, adj, vis):
                     return True
             # if visited and also in the same path, then there is a cycle.
-            elif pathVis[node]:
+            elif vis[node] == 2:
                 return True
         
         # There was no cycle on this path. Hence mark all the nodes visited in
         # this path to 0 and return False.
-        pathVis[index] = 0
+        vis[index] = 1
         return False
     
     #Function to detect cycle in a directed graph.
@@ -25,11 +25,11 @@ class Solution:
         # code here
         
         vis = [0] * V
-        pathVis = [0] * V
+        # pathVis = [0] * V
         
         for i in range(V):
             if not vis[i]:
-                if self.dfs(i, adj, vis, pathVis):
+                if self.dfs(i, adj, vis):
                     return True
                     
         return False
