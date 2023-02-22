@@ -1,5 +1,5 @@
 class Solution:
-    def backtrack(self, index, cost, dp):
+    def dfs(self, index, cost, dp):
         if index < 0:
             return float('inf')
         
@@ -8,13 +8,12 @@ class Solution:
         
         if dp[index] != -1:
             return dp[index]
+            
+        dp[index] = cost[index] + min(self.dfs(index - 1, cost, dp), self.dfs(index - 2, cost, dp))
         
-        dp[index] = cost[index] + min(self.backtrack(index - 1, cost, dp), self.backtrack(index - 2, cost, dp))
-        
-        return dp[index]
-        
+        return cost[index] + min(self.dfs(index - 1, cost, dp), self.dfs(index - 2, cost, dp))
+    
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         dp = [-1] * (len(cost) + 1)
         
-        return min(self.backtrack(len(cost) - 2, cost, dp), self.backtrack(len(cost) - 1, cost, dp))
-          
+        return min(self.dfs(len(cost) - 1, cost, dp), self.dfs(len(cost) - 2, cost, dp))
