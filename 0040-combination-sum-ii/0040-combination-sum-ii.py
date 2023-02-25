@@ -1,7 +1,7 @@
 class Solution:
-    def backtrack(self, index, candidates, target, result, ds):
-        if target == 0:
-            result.append(list(ds))
+    def dfs(self, index, candidates, ds, ans, target):
+        if target == 0 and list(ds) not in ans:
+            ans.append(list(ds))
             return
         
         for i in range(index, len(candidates)):
@@ -12,14 +12,14 @@ class Solution:
                 break
                 
             ds.append(candidates[i])
-            self.backtrack(i + 1, candidates, target - candidates[i], result, ds)
+            self.dfs(i + 1, candidates, ds, ans, target - candidates[i])
             ds.pop()
-            
-        
+    
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        result = []
+        ans = []
+        
         candidates.sort()
         
-        self.backtrack(0, candidates, target, result, [])
+        self.dfs(0, candidates, [], ans, target)
         
-        return result
+        return ans
