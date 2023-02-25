@@ -1,23 +1,22 @@
 class Solution:
-    def backtrack(self, index, candidates, target, result, ds):
+    def dfs(self, index, candidates, ds, ans, target):
         if index == len(candidates):
             if target == 0:
-                result.append(list(ds))
-            
+                ans.append(list(ds))
             return
         
-        # pick the element at the current index.
-        if target >= candidates[index]:
+        # pick
+        if candidates[index] <= target:
             ds.append(candidates[index])
-            self.backtrack(index, candidates, target - candidates[index], result, ds)
+            self.dfs(index, candidates, ds, ans, target - candidates[index])
             ds.pop()
-        
-        # do not pick the element at the current index.
-        self.backtrack(index + 1, candidates, target, result, ds)
-    
+            
+        # not pick
+        self.dfs(index + 1, candidates, ds, ans, target)
+  
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        result = []
+        ans = []
         
-        self.backtrack(0, candidates, target, result, [])
+        self.dfs(0, candidates, [], ans, target)
         
-        return result
+        return ans
