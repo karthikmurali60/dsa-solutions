@@ -1,25 +1,28 @@
 #User function Template for python3
 class Solution:
-    def backtrack(self, index, arr, N, result, ds):
-        if index == N:
-            result.append(sum(ds))
+    def dfs(self, index, arr, ds, ans):
+        if index == len(arr):
+            ans.append(list(ds))
             return
         
-        # pick the element at the current index.
+        # pick
         ds.append(arr[index])
-        self.backtrack(index + 1, arr, N, result, ds)
+        self.dfs(index + 1, arr, ds, ans)
         ds.pop()
         
-        # do not pick the element at the current index.
-        self.backtrack(index + 1, arr, N, result, ds)
+        # not pick
+        self.dfs(index + 1, arr, ds, ans)
     
 	def subsetSums(self, arr, N):
 		# code here
-		
+		ans = []
 		result = []
 		
-		self.backtrack(0, arr, N, result, [])
+		self.dfs(0, arr, [], ans)
 		
+		for subset in ans:
+		    result.append(sum(subset))
+		    
 		return result
 
 
