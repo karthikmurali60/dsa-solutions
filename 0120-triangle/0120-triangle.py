@@ -1,22 +1,21 @@
 class Solution:
-    def backtrack(self, i, j, triangle, dp):
-        if i == len(triangle) - 1:
-            return triangle[i][j]
+    def dfs(self, i, j, m, n, triangle, dp):
+        if i == m - 1:
+            return triangle[m - 1][j]
         
         if dp[i][j] != -1:
             return dp[i][j]
         
-        down = triangle[i][j] + self.backtrack(i + 1, j, triangle, dp)
-        downLeft = triangle[i][j] + self.backtrack(i + 1, j + 1, triangle, dp)
+        down = triangle[i][j] + self.dfs(i + 1, j, m, n, triangle, dp)
+        downRight = triangle[i][j] + self.dfs(i + 1, j + 1, m, n, triangle, dp)
         
-        dp[i][j] = min(down, downLeft)
+        dp[i][j] = min(down, downRight)
         
-        return min(down, downLeft)
-                
+        return min(down, downRight)
+    
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        rows = len(triangle)
-        cols = len(triangle[rows - 1])
+        m, n = len(triangle), len(triangle[-1])
         
-        dp = [[-1] * cols for i in range(rows)]
+        dp = [[-1] * n for _ in range(m)]
         
-        return self.backtrack(0, 0, triangle, dp)
+        return self.dfs(0, 0, m, n, triangle, dp)
