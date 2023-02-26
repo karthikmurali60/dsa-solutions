@@ -1,31 +1,27 @@
 class Solution:
-    def backtrack(self, i, j, matrix, dp, rows, cols):
-        if j < 0 or j > cols - 1:
+    def dfs(self, i, j, m, n, matrix, dp):
+        if j < 0 or j > n - 1:
             return float('inf')
         
-        if i == 0:
+        if i == m - 1:
             return matrix[i][j]
         
         if dp[i][j] != -1:
             return dp[i][j]
         
-        top = matrix[i][j] + self.backtrack(i - 1, j, matrix, dp, rows, cols)
-        topLeft = matrix[i][j] + self.backtrack(i - 1, j - 1, matrix, dp, rows, cols)
-        topRight = matrix[i][j] + self.backtrack(i - 1, j + 1, matrix, dp, rows, cols)
+        dp[i][j] = matrix[i][j] + min(self.dfs(i + 1, j - 1, m, n, matrix, dp), self.dfs(i + 1, j, m, n, matrix, dp), self.dfs(i + 1, j + 1, m, n, matrix, dp))
         
-        dp[i][j] = min(top, topLeft, topRight)
-        
-        return min(top, topLeft, topRight)
+        return dp[i][j]
+    
     
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
-        rows = len(matrix)
-        cols = len(matrix[0])
+        m, n = len(matrix), len(matrix[0])
         
-        dp = [[-1] * cols for i in range(rows)]
+        dp = [[-1] * n for _ in range(m)]
         
-        maxSum = float('inf')
+        minSum = float('inf')
         
-        for j in range(cols):
-            maxSum = min(maxSum, self.backtrack(rows - 1, j, matrix, dp, rows, cols))
+        for j in range(n):
+            minSum = min(minSum, self.dfs(0, j, m, n, matrix, dp))
             
-        return maxSum
+        return minSum
