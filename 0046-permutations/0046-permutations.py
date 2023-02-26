@@ -1,23 +1,22 @@
 class Solution:
-    def backtrack(self, nums, result, vis, ds):
-        if len(ds) == len(nums):
-            result.append(list(ds))
+    def dfs(self, index, nums, ds, ans, vis):
+        if index == len(nums):
+            ans.append(list(ds))
             return
         
-        for i in range(0, len(nums)):
+        for i in range(len(nums)):
             if not vis[i]:
                 vis[i] = 1
                 ds.append(nums[i])
-                self.backtrack(nums, result, vis, ds)
-                ds.pop()
+                self.dfs(index + 1, nums, ds, ans, vis)
                 vis[i] = 0
-        
-        
+                ds.pop()
+    
     def permute(self, nums: List[int]) -> List[List[int]]:
-        result = []
-        nums.sort()
-        vis = [0] * len(nums)
-
-        self.backtrack(nums, result, vis, [])
+        ans = []
         
-        return result
+        vis = [0] * len(nums)
+        
+        self.dfs(0, nums, [], ans, vis)
+        
+        return ans
