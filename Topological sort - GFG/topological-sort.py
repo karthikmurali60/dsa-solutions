@@ -1,29 +1,33 @@
 class Solution:
-    def dfs(self, index, vis, adj, stack):
-        vis[index] = 1
-        
-        for node in adj[index]:
-            if not vis[node]:
-                self.dfs(node, vis, adj, stack)
-                
-        stack.append(index)
-    
     #Function to return list containing vertices in Topological order.
     def topoSort(self, V, adj):
-        # Code here
+        indegree = [0] * V
         
-        vis = [0] * V
+        queue = []
         
-        stack = []
+        topo = []
         
         for i in range(V):
-            if not vis[i]:
-                self.dfs(i, vis, adj, stack)
-                
-        stack.reverse()
+            for node in adj[i]:
+                indegree[node] += 1
         
-        return stack
-
+        for i in range(V):
+            if indegree[i] == 0:
+                queue.append(i)
+                
+        while len(queue) != 0:
+            ele = queue.pop(0)
+            
+            for node in adj[ele]:
+                indegree[node] -= 1
+                
+                if indegree[node] == 0:
+                    queue.append(node)
+                    
+            topo.append(ele)
+            
+        return topo
+            
 
 
 #{ 
