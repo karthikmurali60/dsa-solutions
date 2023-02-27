@@ -2,37 +2,43 @@
 
 
 class Solution:
-    def dfs(self, index, adj, vis):
-        vis[index] = 2
-        # pathVis[index] = 1
+    def topoSort(self, V, adj):
+        indegree = [0] * V
         
-        for node in adj[index]:
-            # recursively visit all the adj nodes if not visited.
-            if vis[node] == 0:
-                if self.dfs(node, adj, vis):
-                    return True
-            # if visited and also in the same path, then there is a cycle.
-            elif vis[node] == 2:
-                return True
+        queue = []
         
-        # There was no cycle on this path. Hence mark all the nodes visited in
-        # this path to 0 and return False.
-        vis[index] = 1
-        return False
-    
-    #Function to detect cycle in a directed graph.
-    def isCyclic(self, V, adj):
-        # code here
-        
-        vis = [0] * V
-        # pathVis = [0] * V
+        topo = []
         
         for i in range(V):
-            if not vis[i]:
-                if self.dfs(i, adj, vis):
-                    return True
+            for node in adj[i]:
+                indegree[node] += 1
+        
+        for i in range(V):
+            if indegree[i] == 0:
+                queue.append(i)
+                
+        while len(queue) != 0:
+            ele = queue.pop(0)
+            
+            for node in adj[ele]:
+                indegree[node] -= 1
+                
+                if indegree[node] == 0:
+                    queue.append(node)
                     
-        return False
+            topo.append(ele)
+            
+        return topo
+
+    #Function to detect cycle in a directed graph.
+    def isCyclic(self, V, adj):
+        topo = self.topoSort(V, adj)
+        
+        if len(topo) != V:
+            return True
+        else:
+            return False
+
 
 #{ 
  # Driver Code Starts
