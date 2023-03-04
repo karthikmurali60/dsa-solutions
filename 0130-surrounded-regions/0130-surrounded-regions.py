@@ -1,36 +1,39 @@
 class Solution:
-    def dfs(self, i, j, rows, cols, board, vis):
+    def dfs(self, i, j, m, n, board, vis):
         vis[i][j] = 1
         
-        directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+        directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
         
-        for dr, dc in directions:
-            nr, nc = dr + i, dc + j
+        for di, dj in directions:
+            ni, nj = i + di, j + dj
             
-            if nr < 0 or nr > rows - 1 or nc < 0 or nc > cols - 1 or vis[nr][nc] == 1 or board[nr][nc] == 'X':
+            if ni < 0 or ni > m - 1 or nj < 0 or nj > n - 1 or vis[ni][nj] or board[ni][nj] == "X":
                 continue
             
-            self.dfs(nr, nc, rows, cols, board, vis)
-            
-    
+            board[ni][nj] = "J"
+            self.dfs(ni, nj, m, n, board, vis)
+        
     def solve(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
         """
         
-        rows = len(board)
-        cols = len(board[0])
+        m, n = len(board), len(board[0])
         
-        vis = [[0] * cols for i in range(rows)]
+        vis = [[0] * n for _ in range(m)]
         
-        for i in range(rows):
-            for j in range(cols):
-                if (i == 0 or i == rows-1 or j == 0 or j == cols-1) and board[i][j] == 'O':
-                    self.dfs(i, j, rows, cols, board, vis)
+        for i in range(m):
+            for j in range(n):
+                if (i == 0 or i == m - 1 or j == 0 or j == n - 1) and board[i][j] == "O" and not vis[i][j]:
+                    board[i][j] = "J"
+                    self.dfs(i, j, m, n, board, vis)
                     
-        for i in range(rows):
-            for j in range(cols):
-                if board[i][j] == 'O' and vis[i][j] == 0:
-                    board[i][j] = 'X'
-                    
-        return board
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == "O":
+                    board[i][j] = "X"
+        
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == "J":
+                    board[i][j] = "O"
