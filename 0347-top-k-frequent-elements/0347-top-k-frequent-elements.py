@@ -1,26 +1,20 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        numsDict = {}
-        n = len(nums)
-
-        freqArr = [[] for i in range(n + 1)]
+        countArr = [[] for _ in range(len(nums) + 1)]
         
-        for i in range(n):
-            if nums[i] in numsDict:
-                numsDict[nums[i]] += 1
-            else:
-                numsDict[nums[i]] = 1
-                
-        for key, val in numsDict.items():
-            freqArr[val].append(key)
+        hashMap = {}
+        
+        for num in nums:
+            hashMap[num] = 1 + hashMap.get(num, 0)
             
-        result = []
+        for key, val in hashMap.items():
+            countArr[val].append(key)
+            
+        ans = []
+                    
+        for i in range(len(countArr) - 1, 0, -1):
+            for j in range(len(countArr[i])):
+                ans.append(countArr[i][j])
                 
-        for i in range(len(freqArr) - 1, 0, -1):
-            for j in freqArr[i]:
-                result.append(j)
-                k -= 1
-                
-                if k == 0:
-                    return result
-        
+                if len(ans) == k:
+                    return ans
