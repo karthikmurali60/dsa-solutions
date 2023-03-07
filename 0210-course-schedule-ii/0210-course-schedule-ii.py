@@ -1,10 +1,10 @@
 class Solution:
-    def topoSort(self, n, adj):
-        indegree = [0] * n
+    def topoSort(self, prerequisites, numCourses, adjList):
+        indegree = [0] * numCourses
         
-        for i in range(n):
-            for node in adj[i]:
-                indegree[node] += 1
+        for neighbours in adjList.values():
+            for course in neighbours:
+                indegree[course] += 1
                 
         queue = []
         topo = []
@@ -12,32 +12,32 @@ class Solution:
         for i in range(len(indegree)):
             if indegree[i] == 0:
                 queue.append(i)
-        
-        while len(queue) != 0:
+                
+        while queue:
             ele = queue.pop(0)
+            
             topo.append(ele)
             
-            for node in adj[ele]:
+            for node in adjList[ele]:
                 indegree[node] -= 1
                 
                 if indegree[node] == 0:
                     queue.append(node)
-                    
+        
         return topo
     
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        adj = {}
+        adjList = {}
         
         for i in range(numCourses):
-            adj[i] = []
+            adjList[i] = []
             
         for course, prereq in prerequisites:
-            adj[prereq].append(course)
-                        
-        topo = self.topoSort(numCourses, adj)
-                
+            adjList[prereq].append(course)
+            
+        topo = self.topoSort(prerequisites, numCourses, adjList)
+        
         if len(topo) != numCourses:
             return []
-        else:
-            return topo
-            
+        
+        return topo
