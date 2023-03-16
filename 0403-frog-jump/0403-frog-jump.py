@@ -2,26 +2,26 @@ class Solution:
     def canCross(self, stones: List[int]) -> bool:
         seen = set()
         
+        n = len(stones)
+        
         queue = [(0, 0)]
         
         while queue:
-            loc, steps = queue.pop()
+            loc, jump = queue.pop(0)
             
-            if (loc, steps) in seen:
+            if (loc, jump) in seen:
                 continue
                 
-            seen.add((loc,steps))
+            seen.add((loc, jump))
             
-            # reached the last stone
-            if loc == stones[-1]:
+            if loc == stones[n - 1]:
                 return True
             
-            elif loc < stones[-1]:
-                for i in range(steps - 1, steps + 2):
-                    if i <= 0:
-                        continue
+            for i in range(jump - 1, jump + 2):
+                if i <= 0:
+                    continue
+                elif loc + i in stones:
+                    queue.append((loc + i, i))
                     
-                    if loc + i in stones:
-                        queue.append((loc + i, i))
-                        
         return False
+            
