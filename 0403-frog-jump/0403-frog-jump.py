@@ -1,9 +1,6 @@
 class Solution:
     def canCross(self, stones: List[int]) -> bool:
-        seen = set()
-        
-        n = len(stones)
-        
+        seen = set()        
         queue = [(0, 0)]
         
         while queue:
@@ -14,7 +11,7 @@ class Solution:
                 
             seen.add((loc, jump))
             
-            if loc == stones[n - 1]:
+            if loc == stones[-1]:
                 return True
             
             if loc < stones[-1]:
