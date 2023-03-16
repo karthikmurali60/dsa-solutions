@@ -21,7 +21,7 @@ class Solution:
                 for i in range(jump - 1, jump + 2):
                     if i <= 0:
                         continue
-                    elif loc + i in stones:
+                    if loc + i in stones:
                         queue.append((loc + i, i))
 
         return False
