@@ -5,21 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def __init__(self):
-        self.maxSum = -1e9
-        
-    def findMaxSum(self, node, maxSum):
-        if node is None:
+    def findMax(self, root):
+        if root is None:
             return 0
         
-        leftSum = max(0, self.findMaxSum(node.left, self.maxSum))
-        rightSum = max(0, self.findMaxSum(node.right, self.maxSum))
+        leftSum = max(0, self.findMax(root.left))
+        rightSum = max(0, self.findMax(root.right))
         
-        self.maxSum = max(self.maxSum, leftSum + rightSum + node.val)
+        self.pathSum = max(self.pathSum, leftSum + rightSum + root.val)
         
-        return node.val + max(leftSum, rightSum)
-    
-    def maxPathSum(self, root: Optional[TreeNode]) -> int:        
-        self.findMaxSum(root, self.maxSum)
+        return root.val + max(leftSum, rightSum)
         
-        return self.maxSum
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        self.pathSum = -1e9
+        
+        self.findMax(root)
+        
+        return self.pathSum
