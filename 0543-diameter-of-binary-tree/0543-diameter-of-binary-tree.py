@@ -4,21 +4,21 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution:    
-    def findDiameter(self, root, maxDiameter):
+class Solution:
+    def findDiameter(self, root, diameter):
         if root is None:
             return 0
         
-        lh = self.findDiameter(root.left, self.maxDiameter)
-        rh = self.findDiameter(root.right, self.maxDiameter)
+        leftDepth = self.findDiameter(root.left, self.diameter)
+        rightDepth = self.findDiameter(root.right, self.diameter)
         
-        self.maxDiameter = max(self.maxDiameter, lh + rh)
+        self.diameter = max(self.diameter, leftDepth + rightDepth)
         
-        return 1 + max(lh, rh)
+        return 1 + max(leftDepth, rightDepth)
     
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:     
-        self.maxDiameter = 0
-
-        self.findDiameter(root, self.maxDiameter)
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        self.diameter = 0
         
-        return self.maxDiameter
+        self.findDiameter(root, self.diameter)
+        
+        return self.diameter
