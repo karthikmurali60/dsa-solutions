@@ -1,26 +1,26 @@
 #User function Template for python3
 
 class Solution:
-    def dfs(self, index, V, adj, ans, vis):
-        if not vis[index]:
-            vis[index] = 1
-            
-            ans.append(index)
-            
-            for node in adj[index]:
-                self.dfs(node, V, adj, ans, vis)
-    
+    def dfs(self, node, adj, result, vis):
+        if vis[node]:
+            return
+        
+        vis[node] = 1
+        
+        result.append(node)
+        
+        for adjNode in adj[node]:
+            self.dfs(adjNode, adj, result, vis)
+        
     #Function to return a list containing the DFS traversal of the graph.
     def dfsOfGraph(self, V, adj):
         # code here
+        result = []
+        vis = [0] * len(adj)
         
-        ans = []
+        self.dfs(0, adj, result, vis)
         
-        vis = [0] * V
-
-        self.dfs(0, V, adj, ans, vis)
-        
-        return ans
+        return result
 
 
 #{ 
