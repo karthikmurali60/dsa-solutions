@@ -1,40 +1,37 @@
 #User function Template for python3
 
 class Solution:
-    def dfs(self, index, adjMatrix, vis):
-        if not vis[index]:
-            vis[index] = 1
-            
-            for node in adjMatrix[index]:
-                self.dfs(node, adjMatrix, vis)
-    
-    
+    def dfs(self, node, adjList, vis):
+        vis[node] = 1
+
+        for adjNode in adjList[node]:
+            if not vis[adjNode]:
+                self.dfs(adjNode, adjList, vis)
+
+
     def numProvinces(self, adj, V):
         # code here 
-        
-        numProvinces = 0
-        
-        adjMatrix = {}
-        
-        for i in range(V):
-            adjMatrix[i] = []
-            
-        for u in range(len(adj)):
-            for v in range(len(adj[0])):
-                if u != v and adj[u][v] == 1:
-                    adjMatrix[u].append(v)
+        count = 0
+        n = len(adj)
+        vis = [0] * n
 
-        # print(adjMatrix)
-        
-        vis = [0] * (V + 1)
-        
-        for i in range(V):
+        adjList = {}
+        for i in range(n):
+            adjList[i] = []
+
+        for i in range(n):
+            for j in range(n):
+                if i != j and adj[i][j]:
+                    adjList[i].append(j)
+                    adjList[j].append(i)
+
+        for i in range(n):
             if not vis[i]:
-                numProvinces += 1
-                self.dfs(i, adjMatrix, vis)
-            
-        return numProvinces
+                count += 1
+                self.dfs(i, adjList, vis)
         
+        return count
+
 #{ 
  # Driver Code Starts
 #Initial Template for Python 3
